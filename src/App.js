@@ -7,9 +7,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
 import { database } from './firebase';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { Header } from './Header';
+import Header from './Header';
 
 class App extends Component {
   state = {
@@ -32,7 +33,6 @@ class App extends Component {
   }
 
   home = () => {
-    const keys = Object.keys(this.state.produtos); 
     return (
       <Grid container>
         {/* HEADER */}
@@ -59,10 +59,10 @@ class App extends Component {
         {/* CONTEÚDO */}
         <Grid item xs={12}>      
         <List>
-        {keys.map( value => {
+        {this.state.produtos.map((value, index) => {
           return (
             <ListItem>
-            <ListItemText primary={this.state.produtos[value].nome} secondary={this.state.produtos[value].url} />
+            <ListItemText primary={value.nome.toString()} secondary={value.url.toString()} />
             </ListItem>
           );
         }) }
@@ -70,7 +70,7 @@ class App extends Component {
         </Grid>
         {/* CONTEÚDO */}
         {/* FLOAT BUTTON */}
-        <Fab color="primary" aria-label="Add" style={{
+        <Link to="/add"><Fab color="primary" aria-label="Add" style={{
           margin: 0,
           top: 'auto',
           right: 20,
@@ -79,13 +79,22 @@ class App extends Component {
           position: 'fixed'
         }}>
         +
-        </Fab>
+        </Fab></Link>
         {/* FLOAT BUTTON */}
       </Grid>
     )
   }
 
   add = () => {
+    const style = {
+      GridInput: {
+        paddingLeft: 5,
+        paddingRight: 5,
+      },
+      Input: {
+        //Removi
+      }
+    }
     return (
       <Grid container>
         {/* HEADER */}      
@@ -93,6 +102,32 @@ class App extends Component {
         <Header />
         </Grid>
         {/* HEADER */}
+        {/* FORMULARIO */}
+        <Grid style={style.GridInput} item xs={6}>
+          <TextField
+            fullWidth
+            id="standard-name"
+            label="Taxa de Câmbio"
+            margin="normal"
+            style={style.Input}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+        <Grid style={style.GridInput} item xs={6}>
+          <TextField
+            fullWidth
+            id="standard-name"
+            label="Valor"
+            margin="normal"
+            style={style.Input}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+        {/* FORMULARIO */}
       </Grid>
     )
   }
